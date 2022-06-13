@@ -1,10 +1,14 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
+import AuthContext from "../../store/auth-context";
 
 import classes from "./AuthForm.module.css";
 
 const AuthForm = () => {
   const emailInputRef = useRef(null);
   const passwordInputRef = useRef(null);
+
+  const authCtx = useContext(AuthContext);
+
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -54,7 +58,8 @@ const AuthForm = () => {
         }
       })
       .then((data) => {
-        console.log(data);
+        //pass the data returned by firebase, that contains the idToken 
+        authCtx.login(data.idToken);
       })
       .catch((err) => {
         alert(err.message);
