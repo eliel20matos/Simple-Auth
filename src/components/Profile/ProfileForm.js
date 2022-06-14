@@ -1,11 +1,12 @@
 import { useRef, useContext } from "react";
 import AuthContext from "../../store/auth-context";
+import { useHistory } from "react-router-dom";
 
 import classes from "./ProfileForm.module.css";
 
 const ProfileForm = () => {
+  const history = useHistory();
   const newPasswordInputRef = useRef();
-
   const authCtx = useContext(AuthContext)
 
   const submitHandler = (event) => {
@@ -27,6 +28,7 @@ const ProfileForm = () => {
       }
     ).then(res => {
       //assumption: Awalways succeeds!
+      history.replace('/')
     });
   };
 
