@@ -1,11 +1,11 @@
 import { useState, useRef, useContext } from "react";
 import AuthContext from "../../store/auth-context";
-import { useHistory } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 
 import classes from "./AuthForm.module.css";
 
 const AuthForm = () => {
-  const history = useHistory()
+  const history = useHistory();
   const emailInputRef = useRef(null);
   const passwordInputRef = useRef(null);
 
@@ -60,9 +60,10 @@ const AuthForm = () => {
         }
       })
       .then((data) => {
-        //pass the data returned by firebase, that contains the idToken 
-        authCtx.login(data.idToken);
-        history.replace('/')
+        //pass the data returned by firebase, that contains the idToken
+        const expirationTime = new Date(new Date().getTime() + (+data.expiresIn * 1000));
+        authCtx.login(data.idToken, expirationTime.toISOString());
+        history.replace("/");
       })
       .catch((err) => {
         alert(err.message);
